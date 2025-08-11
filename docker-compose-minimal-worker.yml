@@ -1,0 +1,25 @@
+# minimal-worker.yml
+version: "3"
+
+services:
+  worker:
+    image: "openmicroscopy/omero-server:5.6"
+    hostname: worker
+    environment:
+      CONFIG_omero_master_host: "${CONFIG_OMERO_MASTER_HOST}"
+      CONFIG_omero_master_port: "4064"
+      CONFIG_omero_db_host: "${CONFIG_OMERO_MASTER_HOST}"
+      CONFIG_omero_db_port: 5432
+      CONFIG_omero_db_user: omero
+      CONFIG_omero_db_pass: omero
+      CONFIG_omero_db_name: omero
+      OMERO_WORKER_NAME: "worker"
+      # Add environment variables for the script
+      OMERO_WORKER_IP: "${OMERO_WORKER_IP}"
+      OMERO_MASTER_IP: "${CONFIG_OMERO_MASTER_HOST}"
+    ports:
+      - "0.0.0.0:4061:4061"
+    volumes:
+      - "./host-mounts/omero-data:/OMERO"
+      - "./logs/worker:/opt/omero/server/OMERO.server/var/log:Z"
+      - "./worker/99-run-external.sh:/startup/99-run.sh"
