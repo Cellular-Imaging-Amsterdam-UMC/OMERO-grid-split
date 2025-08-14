@@ -7,7 +7,7 @@ cd /opt/omero/server
 
 # Get IPs https://unix.stackexchange.com/a/20793
 MASTER_ADDR=$(getent hosts $CONFIG_omero_master_host | cut -d\  -f1)
-WORKER_ADDR=$(getent hosts $OMERO_WORKER_NAME | cut -d\  -f1)
+WORKER_ADDR=$(getent hosts $CONFIG_omero_worker_host | cut -d\  -f1)
 
 echo "Master addr: $MASTER_ADDR Worker addr: $WORKER_ADDR"
 sed \
